@@ -9,17 +9,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Tooted2;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Tooded
 {
     public partial class Form2 : Form
     {
+        
+
+        Form3 form3;
         static List<string> logins = new List<string>();
         static List<string> passwords = new List<string>();
         TextBox nicknameTextBox;
-        //List<string> logins = new List<string>();
-        //List<string> passwords = new List<string>();
         public Form2()
         {
 
@@ -30,36 +32,24 @@ namespace Tooded
             Button btn1 = new Button();
             btn1.Text = "registreerimine";
 
-            btn1.Click += Register();
+            btn1.Click += registerimine_nimi;
             btn1.Visible = true;
             btn1.Location = new Point(240, 190);
             this.Controls.Add(btn1);
             Button btn2 = new Button();
             btn2.Text = "autoriseerimine";
 
-            btn2.Click += Login();
+            btn2.Click += autoreserimine;
             btn2.Visible = true;
             btn2.Location = new Point(240, btn1.Bottom);
             this.Controls.Add(btn2);
-            Button btn3 = new Button();
-            btn3.Text = "muuta";
-
-            btn3.Click += ChangeNameOrPassword();
-            btn3.Visible = true;
-            btn3.Location = new Point(240, btn2.Bottom);
-            this.Controls.Add(btn3);
-            Button btn4 = new Button();
-            btn4.Text = "Unustasidparooli";
-            btn4.Click += ForgotPassword();
-            btn4.Visible = true;
-            btn4.Location = new Point(240, btn3.Bottom);
-            this.Controls.Add(btn4);
+            
             Button btn5 = new Button();
             btn5.Text = "Logivälja";
 
-            btn5.Click += Exit();
+            btn5.Click += Logivälja;
             btn5.Visible = true;
-            btn5.Location = new Point(240, btn4.Bottom);
+            btn5.Location = new Point(240, btn2.Bottom);
             this.Controls.Add(btn5);
 
 
@@ -67,178 +57,7 @@ namespace Tooded
 
 
         }
-        //static void cheto(string[] args)
-        //{
-        //    Console.WriteLine("-- Select --");
-        //    Console.WriteLine("1. Register");
-        //    Console.WriteLine("2. Login");
-        //    Console.WriteLine("3. Change Name or Password");
-        //    Console.WriteLine("4. Forgot Password");
-        //    Console.WriteLine("5. Exit");
-
-        //    int choice = Convert.ToInt32(Console.ReadLine());
-
-        //    switch (choice)
-        //    {
-        //        case 1:
-        //            Register();
-        //            break;
-        //        case 2:
-        //            Login();
-        //            break;
-        //        case 3:
-        //            ChangeNameOrPassword();
-        //            break;
-        //        case 4:
-        //            ForgotPassword();
-        //            break;
-        //        case 5:
-        //            Exit();
-        //            break;
-        //        default:
-        //            Console.WriteLine("Invalid choice");
-        //            break;
-        //    }
-        //}
-        //static void Register()
-        //{
-        //    Console.WriteLine("Enter your nickname:");
-        //    string nickname = Console.ReadLine();
-
-        //    if (logins.Contains(nickname))
-        //    {
-        //        Console.WriteLine("This nickname is already taken.");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Do you want a random password? (Y/N)");
-        //        string choice = Console.ReadLine();
-
-        //        if (choice.ToLower() == "y")
-        //        {
-        //            string password = GenerateRandomPassword();
-        //            logins.Add(nickname);
-        //            passwords.Add(password);
-        //            Console.WriteLine($"Your password: {password}");
-        //            Console.WriteLine("Registration successful!");
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("Enter your password:");
-        //            string password = Console.ReadLine();
-        //            logins.Add(nickname);
-        //            passwords.Add(password);
-        //            Console.WriteLine("Registration successful!");
-        //        }
-        //    }
-        //}
-
-        //static void Login()
-        //{
-        //    Console.WriteLine("Enter your login:");
-        //    string login = Console.ReadLine();
-
-        //    if (!logins.Contains(login))
-        //    {
-        //        Console.WriteLine("This login is not registered.");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Enter your password:");
-        //        string password = Console.ReadLine();
-
-        //        if (password != passwords[logins.IndexOf(login)])
-        //        {
-        //            Console.WriteLine("Wrong password.");
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("Login successful!");
-        //        }
-        //    }
-        //}
-
-        //static void ChangeNameOrPassword()
-        //{
-        //    Console.WriteLine("Enter your login:");
-        //    string login = Console.ReadLine();
-
-        //    if (!logins.Contains(login))
-        //    {
-        //        Console.WriteLine("This login is not registered.");
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Do you want to change your name or password? (login/password)");
-        //        string choice = Console.ReadLine();
-
-        //        if (choice.ToLower() == "login")
-        //        {
-        //            Console.WriteLine("Enter your new login:");
-        //            string newLogin = Console.ReadLine();
-
-        //            if (logins.Contains(newLogin))
-        //            {
-        //                Console.WriteLine("This login is already taken.");
-        //            }
-        //            else
-        //            {
-        //                logins[logins.IndexOf(login)] = newLogin;
-        //                Console.WriteLine("Name change successful!");
-        //            }
-        //        }
-        //        else if (choice.ToLower() == "password")
-        //        {
-        //            Console.WriteLine("Enter your new password:");
-        //            string newPassword = Console.ReadLine();
-        //            passwords[logins.IndexOf(login)] = newPassword;
-        //            Console.WriteLine("Password change successful!");
-        //        }
-        //        else
-        //        {
-        //            Console.WriteLine("Invalid choice.");
-        //        }
-        //    }
-        //}
-
-        //static void ForgotPassword()
-        //{
-        //    Console.WriteLine("Enter your login:");
-        //    string login = Console.ReadLine();
-
-        //    if (!logins.Contains(login))
-        //    {
-        //        Console.WriteLine("This login is not registered.");
-        //    }
-        //    else
-        //    {
-        //        string newPassword = GenerateRandomPassword();
-        //        passwords[logins.IndexOf(login)] = newPassword;
-        //        Console.WriteLine($"Your new password is: {newPassword}");
-        //        Console.WriteLine("Password recovery successful!");
-        //    }
-        //}
-
-        //static void Exit()
-        //{
-        //    Environment.Exit(0);
-        //}
-
-        //static string GenerateRandomPassword()
-        //{
-        //    string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789*-.!_";
-        //    StringBuilder password = new StringBuilder();
-
-        //    Random random = new Random();
-
-        //    for (int i = 0; i < 8; i++)
-        //    {
-        //        password.Append(characters[random.Next(characters.Length)]);
-        //    }
-
-        //    return password.ToString();
-
-        //}
+        
         private void tekst_to_lbl(object sender, EventArgs e)
         {
             Console.WriteLine("Enter a text:");
@@ -265,25 +84,7 @@ namespace Tooded
             password = sb.ToString();
             return true;
         }
-        //public static bool salsasona(int k, out string password)
-        //{
 
-        //    StringBuilder sb = new StringBuilder();
-        //    Random random = new Random();
-
-        //    for (int i = 0; i < k; i++)
-        //    {
-        //        char t = (char)random.Next('A', 'Z' + 1);
-        //        int num = random.Next(0, 10);
-        //        char sym = random.//Char(new[] { '*', '-', '.', '!', '_' });
-
-        //        char[] t_num = { t, num.ToString()[0], sym };
-        //        sb.Append(t_num[random.Next(0, 3)]);
-        //    }
-
-        //    password = sb.ToString();
-        //    return true;
-        //}
 
         private void registerimine_nimi(object sender, EventArgs e)
         {
@@ -313,13 +114,26 @@ namespace Tooded
             aken1.Controls.Add(nicknameTextBox);
 
             aken1.Show();
-            nicknameTextBox.Enter += RegisterButton_Click;
+            nicknameTextBox.KeyDown += NicknameTextBox_KeyDown;
         }
 
-        private void NicknameTextBox_Enter(object sender, EventArgs e)
+        private void NicknameTextBox_KeyDown(object sender, KeyEventArgs e)
         {
-            throw new NotImplementedException();
+            TextBox text = sender as TextBox;
+            if (e.KeyCode == Keys.Enter && text.Text == "Töötaja")
+            {
+                Form3 form3 = new Form3();
+                form3.Show();
+            }
+            else if(e.KeyCode == Keys.Enter && text.Text == "Ostja")
+            {
+                Form3 form3 = new Form3();
+                form3.Show();
+            }
+            
         }
+
+        
 
         private void RegisterButton_Click(object sender, EventArgs e)
         {
