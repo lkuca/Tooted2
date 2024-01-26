@@ -39,18 +39,7 @@ namespace Tooded
             Button btn2 = new Button();
             btn2.Text = "autoriseerimine";
 
-            btn2.Click += autoreserimine;
-            btn2.Visible = true;
-            btn2.Location = new Point(240, btn1.Bottom);
-            this.Controls.Add(btn2);
-            
-            Button btn5 = new Button();
-            btn5.Text = "Logivälja";
-
-            btn5.Click += Logivälja;
-            btn5.Visible = true;
-            btn5.Location = new Point(240, btn2.Bottom);
-            this.Controls.Add(btn5);
+           
 
 
 
@@ -122,8 +111,8 @@ namespace Tooded
             TextBox text = sender as TextBox;
             if (e.KeyCode == Keys.Enter && text.Text == "Töötaja")
             {
-                Form3 form3 = new Form3();
-                form3.Show();
+                Form1 form1 = new Form1();
+                form1.Show();
             }
             else if(e.KeyCode == Keys.Enter && text.Text == "Ostja")
             {

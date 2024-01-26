@@ -76,6 +76,9 @@
     <Compile Include="Form2.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form4.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="obj\Debug\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,7 +88,12 @@
     <EmbeddedResource Include="Form3.resx">
       <DependentUpon>Form3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form4.resx">
+      <DependentUpon>Form4.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="obj\Debug\Tooded.Form1.resources" />
+    <EmbeddedResource Include="obj\Debug\Tooded2.Form1.resources" />
+    <EmbeddedResource Include="obj\Debug\Tooted2.Form3.resources" />
     <EmbeddedResource Include="obj\Debug\Tooted2.Properties.Resources.resources" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -149,6 +157,10 @@
     <Content Include="Pictures\homjak.jpg" />
     <Content Include="Pictures\pituh.jpg" />
     <Content Include="Pictures\Untitled.jpg" />
+    <Content Include="soundeffects\Beep Sound Effect.wav" />
+    <Content Include="soundeffects\BeepSoundEffect.wav" />
+    <Content Include="soundeffects\kassa.wav" />
+    <Content Include="soundeffects\videoplayback %281%29.wav" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

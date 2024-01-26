@@ -30,18 +30,33 @@ namespace Tooted2
         private Button btnAddPicture;
         private System.Drawing.Point originalPictureBoxLocation;
         private int dropCount = 0;
+
+
+
+
         
-        
+        private bool canTrigger = true;
+        private Timer cooldownTimer;
+
+
+
+
+
         private Label labelDropCount1;
         private TextBox textBox1;
+        private TextBox textBox2;
+        private Label label1;
+        private Label label2;
+        private TextBox textBox3;
+        private Button button1;
+        private Button button2;
         private DataTable toode;
         public Form3()
         {
             InitializeComponent();
-            panelDropArea.DragEnter += panelDropArea_DragEnter;
-            panelDropArea.DragDrop += panelDropArea_DragDrop;
-            pictureBox1.DragEnter += pictureBox1_DragEnter;
-            pictureBox1.DragDrop += pictureBox1_DragDrop;
+            //panelDropArea.DragEnter += panelDropArea_DragEnter;
+            //panelDropArea.DragDrop += panelDropArea_DragDrop;
+            
             pictureBox1.AllowDrop = true;
             panelDropArea.AllowDrop = true;
             pictureBox1.MouseDown += btnAddDraggablePicture_MouseDown;
@@ -49,12 +64,19 @@ namespace Tooted2
             btnAddPicture.Click += btnAddPicture_Click;
             pictureBox1.MouseMove += pictureBox1_MouseMove;
             pictureBox1.MouseUp += pictureBox1_MouseUp;
+            cooldownTimer = new Timer();
+            cooldownTimer.Interval = 3000; // 3000 milliseconds (3 seconds)
+            cooldownTimer.Tick += CooldownTimer_Tick;
             LoadData();
             
             originalPictureBoxLocation = pictureBox1.Location;
             this.Height = 800;
             this.Width = 500;
-            
+            if (pictureBox1.Location.X == 42 && pictureBox1.Location.Y == 12)
+            {
+                pictureBox1.Visible = false;
+            }
+
             //Form2.NicknameTextBox_KeyDown();
 
         }
@@ -67,6 +89,12 @@ namespace Tooted2
             this.btnAddPicture = new System.Windows.Forms.Button();
             this.labelDropCount1 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -87,8 +115,7 @@ namespace Tooted2
             this.panelDropArea.Name = "panelDropArea";
             this.panelDropArea.Size = new System.Drawing.Size(200, 100);
             this.panelDropArea.TabIndex = 3;
-            this.panelDropArea.DragDrop += new System.Windows.Forms.DragEventHandler(this.panelDropArea_DragDrop_1);
-            this.panelDropArea.DragEnter += new System.Windows.Forms.DragEventHandler(this.panelDropArea_DragEnter_1);
+            this.panelDropArea.MouseEnter += new System.EventHandler(this.panelDropArea_MouseEnter);
             // 
             // pictureBox1
             // 
@@ -123,9 +150,67 @@ namespace Tooted2
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 6;
             // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(83, 146);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(100, 20);
+            this.textBox2.TabIndex = 7;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(42, 146);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(29, 13);
+            this.label1.TabIndex = 8;
+            this.label1.Text = "prize";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(20, 176);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(56, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Total prize";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(83, 176);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(100, 20);
+            this.textBox3.TabIndex = 10;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(94, 335);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 11;
+            this.button1.Text = "Osta";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(13, 306);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 12;
+            this.button2.Text = "katkesta";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // Form3
             // 
             this.ClientSize = new System.Drawing.Size(318, 597);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.textBox3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.panelDropArea);
             this.Controls.Add(this.textBox1);
@@ -139,6 +224,12 @@ namespace Tooted2
             this.PerformLayout();
 
         }
+
+
+
+
+
+
 
         private void LoadData()
         {
@@ -215,76 +306,75 @@ namespace Tooted2
         {
             isDragging = false;
         }
-        private void pictureBox1_DragEnter(object sender, DragEventArgs e)
+       
+
+        private void panelDropArea_MouseEnter(object sender, EventArgs e)
         {
-            if (e.Data.GetDataPresent(DataFormats.Bitmap))
+            if (canTrigger)
             {
-                e.Effect = DragDropEffects.Copy;
+                pictureBox1.Visible = true;
+                dropCount++;
+                System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"..\..\soundeffects\BeepSoundEffect.wav");
+                player.Play();
+               
+                textBox1.Text = $"{dropCount}";
+                Random random = new Random();
+                double prize = random.Next(1, 1001) / 100.0; 
+
+               
+                textBox2.Text = $"{prize.ToString("F2")}";
+             
+                cooldownTimer.Start();
+                canTrigger = false;
+            }
+            if (double.TryParse(textBox1.Text, out double number1) && double.TryParse(textBox2.Text, out double number2))
+            {
+              
+                double result = number1 * number2;
+
+                
+                textBox3.Text = $"${result.ToString("F2")}"; 
             }
             else
             {
-                e.Effect = DragDropEffects.None;
+               
+                textBox3.Text = "Invalid input";
             }
         }
-
-        private void pictureBox1_DragDrop(object sender, DragEventArgs e)
+        private void CooldownTimer_Tick(object sender, EventArgs e)
         {
-            // Set PictureBox image to null
-            pictureBox1.Image = null;
-
-            // Increment drop count
-            dropCount++;
-
-            // Update label with drop count (replace 'labelDropCount' with the actual name of your Label)
-            labelDropCount1.Text = $"Drop Count: {dropCount}";
-        }
-        private void panelDropArea_DragEnter(object sender, DragEventArgs e)
-        {
-           
             
-                e.Effect = DragDropEffects.All;
-            pictureBox1.Visible = false;
-            pictureBox1.Image = null;
-
-            // Increment drop count
-            dropCount++;
-
-            // Update label with drop count (replace 'labelDropCount' with the actual name of your Label)
-            textBox1.Text = $"Drop Count: {dropCount}";
-        }
-            
-        
-        private void panelDropArea_DragDrop(object sender, DragEventArgs e)
-        {
-            string[] files =(string[])e.Data.GetData(DataFormats.Bitmap);
-            // Set PictureBox image to null
-            pictureBox1.Visible = false;
-            pictureBox1.Image = null;
-
-            // Increment drop count
-            dropCount++;
-
-            // Update label with drop count (replace 'labelDropCount' with the actual name of your Label)
-            textBox1.Text = $"Drop Count: {dropCount}";
+            cooldownTimer.Stop();
+            canTrigger = true;
         }
 
-        private void panelDropArea_DragEnter_1(object sender, DragEventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            string[] files = (string[])e.Data.GetData(DataFormats.Bitmap);
-            // Set PictureBox image to null
-            pictureBox1.Visible = false;
-            pictureBox1.Image = null;
-
-            // Increment drop count
-            dropCount++;
-
-            // Update label with drop count (replace 'labelDropCount' with the actual name of your Label)
-            textBox1.Text = $"Drop Count: {dropCount}";
+            if (textBox1.Text != "" & textBox2.Text != "" & textBox3.Text != "" &&  Text != "0" & textBox2.Text != "0" & textBox3.Text != "0")
+            {
+                textBox1.Text = "0";
+                textBox2.Text = "0";
+                textBox3.Text = "0";
+                System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"..\..\soundeffects\kassa.wav");
+                player.Play();
+                dropCount = 0;
+            }
+            else { MessageBox.Show("Osta midagi!!!"); }
         }
 
-        private void panelDropArea_DragDrop_1(object sender, DragEventArgs e)
+        private void button2_Click(object sender, EventArgs e)
         {
-            e.Effect = DragDropEffects.All;
+            if (textBox1.Text != "" & textBox2.Text != "" & textBox3.Text != "" && Text != "0" & textBox2.Text != "0" & textBox3.Text != "0")
+            {
+                textBox1.Text = "0";
+                textBox2.Text = "0";
+                textBox3.Text = "0";
+                
+                dropCount = 0;
+            }
+            else { MessageBox.Show("Osta midagi!!!"); System.Media.SoundPlayer player = new System.Media.SoundPlayer(@"..\..\soundeffects\videoplayback (1).wav");
+                player.Play();
+            }
         }
     }
     
